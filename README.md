@@ -2,7 +2,7 @@
 Recursively segregate files inside a directory by month and year.
 This program extracts the actual recording date (instead of date modified in properties) of pictures and videos captured by a camera and moves them into directories according to month and year, while preserving the directory structure, which would consist of empty directories to remind the user of the original file classification. 
 
-**Note to the user: As of now, there is no undo feature to put files back in their original folders. It is strongly advised to first make a copy elsewhere for backup**
+**Note to the user: As of now, there is no undo feature to put files back in their original folders. It is strongly advised to first make a copy elsewhere for backup.**
 
 ## Prerequisites
 The following modules need to be installed, by calling the 
@@ -21,7 +21,7 @@ Run the following command on the terminal:
 ## Running the programs
 Usage:  
 `$ python3 segregator.py <directory_name>`  
-`$ python3 mergedirs.py <dst_parent_directory> <src_parent_directory>`
+`$ python3 mergedirs.py <dst_parent_directory> <src_parent_directory>`  
 `$ python3 movetree.py <parent_directory> <destination_directory>`  
 
 
@@ -347,14 +347,16 @@ Year for /home/sriram/work/sample_pics/VID_20190620_092131897.mp4 has been guess
 ```
 
 ### 2. Merge folders (irreversible)
-This is used to combine the results of separate executions of segregator.py, for example merging files of 2018/May/, etc.
-
+This is used to combine the results of separate executions of segregator.py, for example merging files of 2018/May/, etc.  
+(Work in progress).
 
 
 ### 3. Recursively move all files inside subdirectory tree (irreversible)  
 
 This is similar to shutil.copytree, however it preserves the directory structure, which would consist of empty directories to remind the user of the original file classification. These files are stored in different sub directories at different levels.   
 We may use this program if it is necessary for all files to be at the same directory level; such as showing pictures on a TV by pressing next button on the remote without having to navigate to another directory.
+
+(Work in progress).
 
 
 
