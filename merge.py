@@ -5,6 +5,7 @@ import sys
 
 def move_file(src, dst):
     # Move without overwriting
+    # Hello World
     dst = os.path.abspath(dst)
     if os.path.exists(dst):
         dst_basename = "duplicate_" + os.path.basename(dst)
