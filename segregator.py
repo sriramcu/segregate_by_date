@@ -15,6 +15,10 @@ class ExtractionException(Exception):
     pass
 
 
+current_year = datetime.datetime.now().year
+years = list(range(1980, current_year))
+
+
 def move_file(src, dst):
     # Move without overwriting
     dst = os.path.abspath(dst)
@@ -86,8 +90,6 @@ def segregate_based_on_exif(fpath):
 
 
 def segregate_based_on_file_name(fpath):
-    current_year = datetime.datetime.now().year
-    years = list(range(1980, current_year))  # function guesses year if year 1980 to 2021 is present in file name
     basename = str(os.path.basename(fpath))
     dirname = str(os.path.dirname(fpath))
 
@@ -155,7 +157,7 @@ def main():
     assumptions_file_name = "assumptions.txt"
     assumptions_file_pointer = open(assumptions_file_name, 'w')  # Stores names of files whose date were guessed
 
-    l = sum([len(files) for r, d, files in os.walk(".")]) - 1
+    num_files = sum([len(files) for r, d, files in os.walk(".")]) - 1
     i = 0
     files_list = []
     for (root, dirs, files) in os.walk('.', topdown=True):
@@ -164,7 +166,7 @@ def main():
 
     for img_file_path in files_list:
         if i:
-            print("{} out of {} files have been segregated!".format(i, l))
+            print("{} out of {} files have been segregated!".format(i, num_files))
         i += 1
         if assumptions_file_name in img_file_path:
             continue
@@ -184,7 +186,7 @@ def main():
                 print("Year for {} could not be guessed".format(img_file_path))
                 move_file(img_file_path, os.path.join(os.path.abspath(sys.argv[1]), os.path.basename(img_file_path)))
 
-    print("{} out of {} files have been segregated!".format(i, l))
+    print("{} out of {} files have been segregated!".format(i, num_files))
     assumptions_file_pointer.close()
 
 
