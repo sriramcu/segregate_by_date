@@ -9,6 +9,7 @@ import datetime
 from pathlib import Path
 import platform
 import calendar
+import filecmp
 
 
 class ExtractionException(Exception):
@@ -17,10 +18,12 @@ class ExtractionException(Exception):
 
 current_year = datetime.datetime.now().year
 years = list(range(1980, current_year))
+duplicate_count = 0
 
 
 def move_file(src, dst):
     # Move without overwriting
+    src = os.path.abspath(src)
     dst = os.path.abspath(dst)
     if os.path.dirname(src) == os.path.dirname(dst):
         # condition to ensure that file already present in the correct destination directory
@@ -28,6 +31,12 @@ def move_file(src, dst):
         print("File already exists in the correct directory")
         return
     if os.path.exists(dst):
+        if filecmp.cmp(src, dst, shallow=False):
+            print("deleting identical file..")
+            os.remove(src)
+            global duplicate_count
+            duplicate_count += 1
+            return
         dst_basename = "duplicate_" + os.path.basename(dst)
         dst_dirname = os.path.dirname(dst)
         while os.path.exists(os.path.join(dst_dirname, dst_basename)):
@@ -102,7 +111,7 @@ def segregate_based_on_file_name(fpath):
             date_regex = re.compile(str(year) + r'[-_]?(\d{1,2})')
             # Year and month may be separated by hyphen or underscore
             mo = date_regex.search(basename)
-            if not mo or int(mo.group(1)) > 12:
+            if not mo or int(mo.group(1)) > 12 or int(mo.group(1)) < 1:
                 exif_flag = 0
                 try:
                     exif_month, exif_year = get_exif_date_time(fpath)
@@ -152,6 +161,10 @@ def segregate_based_on_creation_date(fpath):
 
 
 def main():
+    if len(sys.argv) < 2:
+        print("Usage: python3 segregator.py parent_dir")
+        sys.exit(-1)
+
     os.chdir(sys.argv[1])
     # Argument must specify parent directory containing the files to be segregated; this program preserves all directories
     assumptions_file_name = "assumptions.txt"
@@ -186,7 +199,8 @@ def main():
                 print("Year for {} could not be guessed".format(img_file_path))
                 move_file(img_file_path, os.path.join(os.path.abspath(sys.argv[1]), os.path.basename(img_file_path)))
 
-    print("{} out of {} files have been segregated!".format(i, num_files))
+    # print("{} out of {} files have been segregated!".format(i, num_files))
+    print("{} identical files deleted".format(duplicate_count))
     assumptions_file_pointer.close()
 
 

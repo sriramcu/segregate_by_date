@@ -14,11 +14,7 @@ Run the following commands on the terminal:
 ## Running the programs
 Usage:  
 `$ python3 segregator.py <directory_name>`  
-`$ python3 mergedirs.py <dst_parent_directory> <src_parent_directory>`  
-`$ python3 movetree.py <parent_directory> <destination_directory>`  
-
-
-## Examples
+`$ python3 merge.py <src_parent_directory> <dst_parent_directory>`
 
 ### 1. Segregate files into month and year (irreversible)
 
@@ -341,7 +337,8 @@ Year for /home/sriram/work/sample_pics/VID_20190620_092131897.mp4 has been guess
 
 ### 2. Merge folders (irreversible)
 This is used to combine the results of separate executions of segregator.py, for example merging files of 2018/May/ in different parent directories, etc.  
-(Work in progress).
+
+
 
 
 
