@@ -4,19 +4,12 @@ This program extracts the actual recording date (instead of date modified in pro
 
 **Note to the user: As of now, there is no undo feature to put files back in their original folders. It is strongly advised to first make a copy elsewhere for backup.**
 
-## Prerequisites
-The following modules need to be installed, by calling the 
-` pip install <module_name> command`
-* magic (module_name in above command for this would be 'python-magic')
-* PIL
-* exiftool
-* pathlib
-* datetime
+## Setup
 
-## Installation
-
-Run the following command on the terminal:  
-`$ git clone https://github.com/sriramcu/segregate_by_date/`
+Run the following commands on the terminal:  
+`$ git clone https://github.com/sriramcu/segregate_by_date/`  
+`$ cd segregate_by_date/`  
+`$ pip install -r requirements.txt`
 
 ## Running the programs
 Usage:  
@@ -347,15 +340,7 @@ Year for /home/sriram/work/sample_pics/VID_20190620_092131897.mp4 has been guess
 ```
 
 ### 2. Merge folders (irreversible)
-This is used to combine the results of separate executions of segregator.py, for example merging files of 2018/May/, etc.  
-(Work in progress).
-
-
-### 3. Recursively move all files inside subdirectory tree (irreversible)  
-
-This is similar to shutil.copytree, however it preserves the directory structure, which would consist of empty directories to remind the user of the original file classification. These files are stored in different sub directories at different levels.   
-We may use this program if it is necessary for all files to be at the same directory level; such as showing pictures on a TV by pressing next button on the remote without having to navigate to another directory.
-
+This is used to combine the results of separate executions of segregator.py, for example merging files of 2018/May/ in different parent directories, etc.  
 (Work in progress).
 
 
