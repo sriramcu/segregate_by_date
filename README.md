@@ -97,7 +97,7 @@ the year from the filename, but no exif entry was found. For `corrupted_pic.jpg`
 input's filepath, thus moved to "Unknown" folder. For `embedded_exif_date_pic.png`, the program used exif to 
 extract the date information. For `IMG_20210912_120000.jpg`, the filename was used to extract the date. 
 
-Now consider the following input:
+Now consider the following input, after the previous run:
 ```
 new_input_dir/
 ├── IMG_20220912_120000.jpg
