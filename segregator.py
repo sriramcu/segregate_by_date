@@ -19,6 +19,18 @@ TIMESTAMP_STR = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 class ExtractionException(Exception):
     pass
 
+def move_with_suffix(src_path, dest_path):
+    src_file_name = os.path.basename(src_path)
+    name, ext = os.path.splitext(src_file_name)
+    dest_folder = os.path.dirname(dest_path)
+
+    counter = 1
+    while os.path.exists(dest_path):
+        dest_path = os.path.join(dest_folder, f"{name} ({counter}){ext}")
+        counter += 1
+
+    shutil.move(src_path, dest_path)
+
 
 def segregate_based_on_creation_date(fpath, output_dir):
     try:
@@ -30,7 +42,7 @@ def segregate_based_on_creation_date(fpath, output_dir):
         print_and_log(f"Year and month for {fpath} have been guessed as {year}, {month}", output_dir)
         new_path = os.path.join(output_dir, year, month)
         Path(new_path).mkdir(parents=True, exist_ok=True)
-        shutil.move(fpath, os.path.join(new_path, os.path.basename(fpath)))
+        move_with_suffix(fpath, os.path.join(new_path, os.path.basename(fpath)))
         return True
 
 
@@ -80,7 +92,7 @@ def segregate_based_on_exif(fpath, output_dir):
         (month, year) = get_exif_date_time(fpath)
         new_path = os.path.join(output_dir, year, month)
         Path(new_path).mkdir(parents=True, exist_ok=True)
-        shutil.move(fpath, os.path.join(new_path, os.path.basename(fpath)))
+        move_with_suffix(fpath, os.path.join(new_path, os.path.basename(fpath)))
         return True
     except ExtractionException:
         return False
@@ -123,13 +135,13 @@ def segregate_based_on_file_name(fpath, output_dir):
                                   output_dir)
                     new_path = os.path.join(output_dir, str(year), month)
                     Path(new_path).mkdir(parents=True, exist_ok=True)
-                    shutil.move(fpath, os.path.join(new_path, basename))
+                    move_with_suffix(fpath, os.path.join(new_path, basename))
                     return True
 
                 print_and_log(f"Year for {fpath} has been guessed as {year}", output_dir)
                 new_path = os.path.join(output_dir, str(year))
                 Path(new_path).mkdir(parents=True, exist_ok=True)
-                shutil.move(fpath, os.path.join(new_path, basename))
+                move_with_suffix(fpath, os.path.join(new_path, basename))
                 return True
 
             else:
@@ -139,7 +151,7 @@ def segregate_based_on_file_name(fpath, output_dir):
                 print_and_log(f"Year and Month for {fpath} have been guessed as {year}-{month}", output_dir)
                 new_path = os.path.join(output_dir, str(year), month)
                 Path(new_path).mkdir(parents=True, exist_ok=True)
-                shutil.move(fpath, os.path.join(new_path, basename))
+                move_with_suffix(fpath, os.path.join(new_path, basename))
                 return True
 
     return False
@@ -174,29 +186,18 @@ def get_directory_stats(path):
     return file_count, total_size
 
 
-def backup_input_or_output_folder(directory, output_dir):
+def backup_input_or_output_folder(directory, output_dir, outer_folder):
     """
-    Creates a backup of the input or output folder.The backup folder will be a sibling to directory and the actual
+    Creates a backup of the input or output folder.The backup folder will be a directory inside this repo and the actual
     backup is stored inside the appropriate timestamp folder.
-    :param directory:
-    :return:
     """
     print_and_log(f"Backing up {directory}", output_dir)
+    backup_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'program_backup', TIMESTAMP_STR)
+    shutil.copytree(directory, os.path.join(backup_dir, outer_folder, os.path.basename(directory)))
+    print_and_log(f"Backup of {directory} completed", output_dir, verbose=False)
 
-    backup_dir = os.path.join(os.path.dirname(directory), 'program_backup', TIMESTAMP_STR, os.path.basename(directory))
-    os.makedirs(backup_dir, exist_ok=True)
-    for root, dirs, files in os.walk(directory):
-        for directory in dirs:
-            directory_path = os.path.join(root, directory)
-            os.makedirs(os.path.join(backup_dir, os.path.relpath(directory_path, directory)), exist_ok=True)
-        for file in files:
-            shutil.copy2(os.path.join(root, file), os.path.join(backup_dir, os.path.relpath(root, directory), file))
-
-    print_and_log(f"Backup of {directory} completed", output_dir)
     # cleanup old backups
-    backup_parent_dir = os.path.join(os.path.dirname(directory), 'program_backup')
-    if not os.path.exists(backup_parent_dir):
-        return
+    backup_parent_dir = os.path.dirname(backup_dir)
     backups = [os.path.join(backup_parent_dir, f) for f in sorted(os.listdir(backup_parent_dir), reverse=True)]
     for backup in backups[4:]:
         shutil.rmtree(backup)
@@ -210,9 +211,9 @@ def segregate_entire_folder(input_dir, output_dir):
                   output_dir, verbose=True, first_time=True)
     print_and_log(f"Before program run, file count and file size of output folder {output_dir}"
                   f" is {get_directory_stats(output_dir)}", output_dir, verbose=True)
-    backup_input_or_output_folder(input_dir, output_dir)
+    backup_input_or_output_folder(input_dir, output_dir, "input")
     if (get_directory_stats(output_dir)[0] > 1):
-        backup_input_or_output_folder(output_dir, output_dir)
+        backup_input_or_output_folder(output_dir, output_dir, "output")
     for (root, dirs, files) in os.walk(input_dir, topdown=True):
         for img_file_name in files:
             if ASSUMPTIONS_FILE_NAME in img_file_name:
@@ -236,7 +237,7 @@ def segregate_entire_folder(input_dir, output_dir):
 
             unknown_dir_path = os.path.join(os.path.abspath(output_dir), "Unknown")
             os.makedirs(unknown_dir_path, exist_ok=True)
-            shutil.move(img_file_path, os.path.join(unknown_dir_path, img_file_name))
+            move_with_suffix(img_file_path, os.path.join(unknown_dir_path, img_file_name))
 
     print_and_log(f"After program run, file count and file size of output folder {output_dir}"
                   f" is {get_directory_stats(output_dir)}", output_dir, verbose=True)
@@ -253,8 +254,8 @@ def main():
     parser.add_argument('-v', '--verbose', type=int, default=0,
                         help='Print status messages as the program runs')
     args = parser.parse_args()
-    input_dir = args.input_dir
-    output_dir = args.output_dir
+    input_dir = os.path.abspath(args.input_dir)
+    output_dir = os.path.abspath(args.output_dir)
     global VERBOSE
     VERBOSE = bool(int(args.verbose))
     segregate_entire_folder(input_dir, output_dir)

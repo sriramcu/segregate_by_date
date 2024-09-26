@@ -60,7 +60,8 @@ Run the script with the following options:
    combined output mentioned in the previous point. To restore original input/output folders, go to the backup 
    folders created in step 1.
 7. Regardless of verbosity, the program prints file count of input/output folders before and after running.
-8. **Note that files with the same name will be overwritten in the output folder.**
+8. **Note that files with the same name will be duplicated in the output folder with a numbered suffix, like (1)
+   , (2), etc.**
 
 ## Sample Output
 
@@ -128,6 +129,7 @@ output_dir/
 │       └── IMG_20210912_120000.jpg
 │   └── Aug/
 │       └── embedded_exif_date_pic.png
+│       └─── embedded_exif_date_pic (1).png
 ├── 2020/
 │   └── video_2020.mp4
 └── Unknown/
@@ -136,6 +138,6 @@ output_dir/
 ```
 
 In the above example, `output_dir` already existed, so new generated output on `new_input_dir` would be merged 
-into this existing output folder. `embedded_exif_date_pic.png` was overwritten since it already existed in 
-`output_dir`. A new year and month folder was created in `output_dir` for `IMG_20220912_120000.jpg` (2022, Sep) 
+into this existing output folder. `embedded_exif_date_pic.png` was renamed by adding a numbered suffix (1) 
+since it already existed in `output_dir`. A new year and month folder was created in `output_dir` for `IMG_20220912_120000.jpg` (2022, Sep) 
 to be stored. `corrupted_pic2.jpg` was added to `Unknown` folder.
