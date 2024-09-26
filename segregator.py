@@ -91,7 +91,7 @@ def segregate_based_on_file_name(fpath, output_dir):
     dirname = str(os.path.dirname(fpath))
 
     current_year = datetime.datetime.now().year
-    years = list(range(1980, current_year))
+    years = list(range(1950, current_year))
 
     for year in years:
         if str(year) in PurePath(dirname).parts:
