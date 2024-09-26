@@ -1,2 +1,5 @@
 InputFolder/*
 OutputFolder/*
+dist/*
+build/*
+*.spec
