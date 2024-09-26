@@ -20,7 +20,7 @@ Usage:
 
 The following illustrates usage of this program with pictures captured on different dates, along with the [tree](https://linux.die.net/man/1/tree) command being executed before and after the program. These pictures are stored in different sub directories at different levels. assumptions.txt contains list of files whose date could not be determined accurately and were guessed from filename or file property, etc.
 <details>
-<summary>Click to expand</summary><p>
+<summary>Click to expand console usage</summary><p>
 
 ```console
 (venv) sriram@sriram-e490:~/work/sample_pics$ tree
