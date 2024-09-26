@@ -151,7 +151,7 @@ like directory stats will be logged as usual.
 ## Releases
 
 You can download the latest version of the executable from our 
-[Releases page](https://github.com/sriramcu/segregate_by_date/repository/releases). The exe behaves exactly the 
+[Releases page](https://github.com/sriramcu/segregate_by_date/releases). The exe behaves exactly the 
 same as the GUI script. No need for setup, the exe is self-contained. In case Microsoft Defender throws any 
 errors, exclude this file 
 [by following these steps](https://support.microsoft.com/en-us/windows/add-an-exclusion-to-windows-security-811816c0-4dfd-af4a-47e4-c301afe13b26)
