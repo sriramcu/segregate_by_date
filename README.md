@@ -155,7 +155,8 @@ You can download the latest version of the executable from our
 same as the GUI script. No need for setup, the exe is self-contained. In case Microsoft Defender throws any 
 errors, exclude this file 
 [by following these steps](https://support.microsoft.com/en-us/windows/add-an-exclusion-to-windows-security-811816c0-4dfd-af4a-47e4-c301afe13b26)
-.
+. Alternatively, when Windows Defender shows a pop-up saying "Windows Protected your PC", then click "More 
+Info" -> "Run anyway"
 
 You can generate your own exe by following the setup steps, pip installing pyinstaller and then running 
 `pyinstaller --onefile --noconsole segregator_gui.py`.
