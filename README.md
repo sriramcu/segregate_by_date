@@ -20,7 +20,8 @@ Usage:
 
 The following illustrates usage of this program with pictures captured on different dates, along with the [tree](https://linux.die.net/man/1/tree) command being executed before and after the program. These pictures are stored in different sub directories at different levels. assumptions.txt contains list of files whose date could not be determined accurately and were guessed from filename or file property, etc.
 <details>
-<summary>Click to expand</summary>
+<summary>Click to expand</summary><p>
+
 ```console
 (venv) sriram@sriram-e490:~/work/sample_pics$ tree
 .
@@ -335,7 +336,7 @@ Year for /home/sriram/work/sample_pics/VID_20190620_092131897.mp4 has been guess
 /home/sriram/work/sample_pics/VID_20190620_092131897.mp4
 (venv) sriram@sriram-e490:~/work/sample_pics$ 
 ```
-</details>
+</p></details>
 ### 2. Merge folders (irreversible)
 This is used to combine the results of separate executions of segregator.py, for example merging files of 2018/May/ in different parent directories, etc.  
 
