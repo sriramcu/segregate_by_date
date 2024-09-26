@@ -141,3 +141,21 @@ In the above example, `output_dir` already existed, so new generated output on `
 into this existing output folder. `embedded_exif_date_pic.png` was renamed by adding a numbered suffix (1) 
 since it already existed in `output_dir`. A new year and month folder was created in `output_dir` for `IMG_20220912_120000.jpg` (2022, Sep) 
 to be stored. `corrupted_pic2.jpg` was added to `Unknown` folder.
+
+## GUI
+
+You can run the tkinter based GUI by running the script: `python segregator_gui.py`, which simply uses this 
+underlying code while providing folder pickers for the arguments, and disables verbosity. Usual console logs 
+like directory stats will be logged as usual. 
+
+## Releases
+
+You can download the latest version of the executable from our 
+[Releases page](https://github.com/sriramcu/segregate_by_date/repository/releases). The exe behaves exactly the 
+same as the GUI script. No need for setup, the exe is self-contained. In case Microsoft Defender throws any 
+errors, exclude this file 
+[by following these steps](https://support.microsoft.com/en-us/windows/add-an-exclusion-to-windows-security-811816c0-4dfd-af4a-47e4-c301afe13b26)
+.
+
+You can generate your own exe by following the setup steps, pip installing pyinstaller and then running 
+`pyinstaller --onefile --noconsole segregator_gui.py`.

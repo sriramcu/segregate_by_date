@@ -1,9 +1,8 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox
-from pathlib import Path
-import os
-import shutil
+from tkinter import filedialog
+
 from segregator import segregate_entire_folder
+
 
 def run_segregation(input_dir, output_dir, log_output):
     try:
