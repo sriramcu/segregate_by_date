@@ -159,3 +159,7 @@ errors, exclude this file
 
 You can generate your own exe by following the setup steps, pip installing pyinstaller and then running 
 `pyinstaller --onefile --noconsole segregator_gui.py`.
+
+A screenshot of the GUI and the exe can be seen below:
+
+![img.png](img.png)
