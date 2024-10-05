@@ -98,6 +98,17 @@ def segregate_based_on_exif(fpath, output_dir):
         return False
 
 
+def find_substr_with_lowest_index(my_str, substrs, lowest_substr):
+    substrs = [str(x) for x in substrs]
+    lowest_index = float('inf')  # Initialize to infinity
+    for substr in substrs:
+        index = my_str.find(substr)
+        if index != -1 and  index < lowest_index:
+            lowest_index = index
+            lowest_substr = substr
+    return lowest_substr
+
+
 def segregate_based_on_file_name(fpath, output_dir):
     basename = str(os.path.basename(fpath))
     dirname = str(os.path.dirname(fpath))
@@ -111,6 +122,7 @@ def segregate_based_on_file_name(fpath, output_dir):
             return True
 
         if str(year) in basename:
+            year = find_substr_with_lowest_index(basename, years, str(year))
             date_regex = re.compile(str(year) + r'[-_]?(\d{1,2})')
             # Year and month may be separated by hyphen or underscore
             mo = date_regex.search(basename)
